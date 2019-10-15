@@ -1,0 +1,34 @@
+version: '2'
+
+services:
+  # wordpress
+  wordpress:
+    image: wordpress:latest
+    ports:
+      - "9000:80"
+    links:
+      - wordpress-mysql
+    restart: always
+    environment:
+      WORDPRESS_DB_HOST: wordpress-mysql:3306
+      WORDPRESS_DB_USER: user
+      WORDPRESS_DB_PASSWORD: mysql
+      WORDPRESS_DB_NAME: usanikki_wp1
+    volumes:
+      - wordpress-files:/var/www/html
+
+  wordpress-mysql:
+    image: llasuka/mysql
+    volumes:
+      - main-wordpress-db:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: usanikki_wp1
+      MYSQL_PASSWORD: mysql
+      MYSQL_ROOT_PASSWORD: mysql
+      MYSQL_USER: user
+
+volumes:
+  wordpress-files:
+    external: true
+  main-wordpress-db:
+    external: true

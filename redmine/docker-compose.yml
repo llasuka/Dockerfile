@@ -1,0 +1,38 @@
+version: '2'
+
+# redmine with mysql
+
+services:
+  mysql:
+    image: llasuka/mysql
+    container_name: mysql
+    volumes:
+      - main-redmine-db:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: redmine
+      MYSQL_PASSWORD: mysql
+      MYSQL_ROOT_PASSWORD: mysql
+      MYSQL_USER: user
+
+  redmine:
+    image: llasuka/redmine
+    container_name: redmine
+    volumes:
+      - main-redmine-files:/usr/redmine/files
+    ports:
+      - "3000:3000"
+    links:
+      - mysql
+    restart: always
+    environment:
+      REDMINE_DB_MYSQL: mysql
+      REDMINE_DB_USERNAME: mysql
+      REDMINE_DB_PASSWORD: mysql
+      REDMINE_DB_DATABASE: redmine
+
+volumes:
+  main-redmine-db:
+    external: true
+  main-redmine-files:
+    external: true
