@@ -26,6 +26,7 @@ services:
       MYSQL_PASSWORD: mysql
       MYSQL_ROOT_PASSWORD: mysql
       MYSQL_USER: user
+    restart: always
 
 volumes:
   wordpress-files:
